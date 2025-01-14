@@ -85,8 +85,6 @@ public class FluxAndMonoServices {
     // DEFAULT IF EMPTY METHOD
     // If the passed parameter is 10 and our list does not have any string having length more than 10 , then it returns "Default"
     public Flux<String> fruitFluxTransformDefaultIfEmpty(int number) {
-        // the following code -- .filter(s -> s.length() > number).log(); is converted into a variable
-        // so that we can use the transform operator and then pass the variable filerData
         Function<Flux<String>,Flux<String>> filterData =
                 data -> data.filter(s -> s.length() > number);
 
@@ -94,7 +92,6 @@ public class FluxAndMonoServices {
                 .transform(filterData)
                 .defaultIfEmpty("Default")
                 .log();
-        //   .filter(s -> s.length() > number).log();
     }
 
     // MONO
