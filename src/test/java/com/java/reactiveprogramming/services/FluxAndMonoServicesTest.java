@@ -80,4 +80,101 @@ class FluxAndMonoServicesTest {
         var fruitFluxTransformDefaultIfEmpty = fluxAndMonoServices.fruitFluxTransformDefaultIfEmpty(10);
         StepVerifier.create(fruitFluxTransformDefaultIfEmpty).expectNext("Default").verifyComplete();
     }
+
+    @Test
+    void fruitFluxTransformSwitchIfEmpty() {
+        var fruitFluxTransformSwitchIfEmpty = fluxAndMonoServices.fruitFluxTransformSwitchIfEmpty(7);
+        StepVerifier.create(fruitFluxTransformSwitchIfEmpty).expectNext("JackFruit", "Pineapple").verifyComplete();
+    }
+
+    @Test
+    void fruitFluxConcat() {
+        var fruits = fluxAndMonoServices.fruitFluxConcat().log();
+        StepVerifier.create(fruits).expectNext("Mango", "Orange", "Tomato", "Carrot").verifyComplete();
+    }
+
+    @Test
+    void fruitFluxConcatWith() {
+        var fruits = fluxAndMonoServices.fruitFluxConcatWith().log();
+        StepVerifier.create(fruits).expectNext("Mango", "Orange", "Tomato", "Carrot").verifyComplete();
+    }
+
+    @Test
+    void fruitMonoConcatWith() {
+        var fruits = fluxAndMonoServices.fruitMonoConcatWith().log();
+        StepVerifier.create(fruits).expectNext("Mango", "Tomato").verifyComplete();
+    }
+
+    @Test
+    void fruitFluxMerge() {
+        var fruits = fluxAndMonoServices.fruitFluxMerge().log();
+        StepVerifier.create(fruits).expectNext("Mango", "Tomato", "Orange","Carrot").verifyComplete();
+    }
+
+    @Test
+    void fruitFluxMergeWith() {
+        var fruits = fluxAndMonoServices.fruitFluxMergeWith().log();
+        StepVerifier.create(fruits).expectNext("Mango", "Tomato", "Orange","Carrot").verifyComplete();
+    }
+
+    @Test
+    void fruitFluxMergeWithSequential() {
+        var fruits = fluxAndMonoServices.fruitFluxMergeSequential().log();
+        StepVerifier.create(fruits).expectNext("Mango", "Orange", "Tomato", "Carrot").verifyComplete();
+    }
+
+    @Test
+    void fruitFluxZip() {
+        var fruits = fluxAndMonoServices.fruitFluxZip();
+        StepVerifier.create(fruits).expectNext("MangoTomato", "OrangeCarrot").verifyComplete();
+    }
+
+    @Test
+    void fruitFluxZipWith() {
+        var fruits = fluxAndMonoServices.fruitFluxZipWith();
+        StepVerifier.create(fruits).expectNext("MangoTomato", "OrangeCarrot").verifyComplete();
+    }
+
+    @Test
+    void fruitFluxZipTuple() {
+        var fruits = fluxAndMonoServices.fruitFluxZipTuple();
+        StepVerifier.create(fruits).expectNext("MangoTomatoPepper", "OrangeCarrotChilly").verifyComplete();
+    }
+
+    @Test
+    void fruitMonoZipWith() {
+        var fruits = fluxAndMonoServices.fruitMonoZipWith();
+        StepVerifier.create(fruits).expectNext("MangoTomato").verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxDoOn() {
+        var fruits = fluxAndMonoServices.fruitsFluxDoOn(5);
+        StepVerifier.create(fruits).expectNext("Banana").verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxOnError() {
+        var fruits = fluxAndMonoServices.fruitsFluxOnErrorReturn().log();
+        StepVerifier.create(fruits).expectNext("Apple", "Mango", "Orange").verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxOnErrorContinue() {
+        var fruits = fluxAndMonoServices.fruitsFluxOnErrorContinue().log();
+        StepVerifier.create(fruits).expectNext("APPLE", "ORANGE").verifyComplete();
+
+    }
+
+    @Test
+    void fruitsFluxOnErrorMap() {
+        var fruits = fluxAndMonoServices.fruitsFluxOnErrorMap().log();
+        StepVerifier.create(fruits).expectNext("APPLE").expectError(IllegalStateException.class).verify();
+    }
+
+    @Test
+    void fruitsFluxDoOnError() {
+        var fruits = fluxAndMonoServices.fruitsFluxDoOnError().log();
+        StepVerifier.create(fruits).expectNext("APPLE").expectError(RuntimeException.class).verify();
+    }
 }
